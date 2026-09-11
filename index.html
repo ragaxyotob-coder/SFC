@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SFC - Striking Fight Card | بطولة SFC القتالية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0a0e17;
+            --card-bg: #121824;
+            --accent-gold: #f39c12;
+            --accent-blue: #00d2ff;
+            --text-main: #ffffff;
+            --text-sub: #a0aec0;
+            --border-color: #2d3748;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: rgba(18, 24, 36, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #1a2332;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 26px;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--accent-gold), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo i {
+            color: var(--accent-gold);
+            -webkit-text-fill-color: initial;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: var(--text-sub);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent-gold);
+        }
+
+        .hero {
+            position: relative;
+            background: linear-gradient(rgba(10, 14, 23, 0.85), rgba(10, 14, 23, 0.95)),
+                        url('https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?auto=format&fit=crop&w=1350&q=80') center/cover;
+            padding: 90px 20px 70px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-sub);
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: #fff;
+            padding: 12px 35px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin: 50px 0 30px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--accent-gold), var(--accent-blue));
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+
+        .leaderboard-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+        }
+
+        th, td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: #182030;
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+        }
+
+        tr:hover {
+            background: #1a2334;
+        }
+
+        .rank {
+            font-weight: bold;
+            width: 60px;
+            text-align: center;
+        }
+
+        .champ-badge {
+            background: linear-gradient(45deg, #f1c40f, #f39c12);
+            color: #000;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .matches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .match-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .match-card:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .category-title {
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .vs-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin: 15px 0;
+        }
+
+        .fighter {
+            flex: 1;
+        }
+
+        .fighter-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .fighter-record {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        .vs-circle {
+            background: var(--accent-blue);
+            color: #000;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.9rem;
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+            margin: 0 10px;
+        }
+
+        .belts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .belt-card {
+            background: linear-gradient(135deg, #182030, #121824);
+            border: 2px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+        }
+
+        .belt-icon {
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+        }
+
+        .belt-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .champ-name {
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        footer {
+            background: #06090e;
+            text-align: center;
+            padding: 25px 20px;
+            color: var(--text-sub);
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            nav ul { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fa-solid fa-trophy"></i> SFC CHAMPIONSHIP
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#leaderboard" class="active">الترتيب العام</a></li>
+                    <li><a href="#belts">المجموعات والأبطال</a></li>
+                    <li><a href="#fights">المواجهات القادمة</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>بطولة SFC الكبرى للقتال</h1>
+        <p>مرحباً بك في المنصة الرسمية لبطولة Striking Fight Card - جدول الترتيب والمواجهات الحاسمة.</p>
+        <a href="#fights" class="hero-btn">عرض جدول المواجهات <i class="fa-solid fa-fire"></i></a>
+    </section>
+
+    <div class="container">
+
+        <h2 class="section-title" id="belts">أبطال المجموعات</h2>
+        <div class="belts-grid">
+            <div class="belt-card">
+                <i class="fa-solid fa-crown belt-icon"></i>
+                <h3>الفئة الذهبية (Gold Group)</h3>
+                <p>البطل الحالي:</p>
+                <div class="champ-name">طه</div>
+            </div>
+            <div class="belt-card">
+                <i class="fa-solid fa-crown belt-icon"></i>
+                <h3>الفئة الفضية (Silver Group)</h3>
+                <p>البطل الحالي:</p>
+                <div class="champ-name">ياسين</div>
+            </div>
+            <div class="belt-card">
+                <i class="fa-solid fa-crown belt-icon"></i>
+                <h3>فئة البحث عن الفوز (Bronze Group)</h3>
+                <p>المنافسين:</p>
+                <div class="champ-name">عبد الرؤوف & فراس</div>
+            </div>
+            <div class="belt-card">
+                <i class="fa-solid fa-crown belt-icon"></i>
+                <h3>فئة الثقيل (Heavyweight)</h3>
+                <p>أبطال مناصفة:</p>
+                <div class="champ-name">عبد الرحمن & أحمد</div>
+            </div>
+        </div>
+
+        <h2 class="section-title" id="leaderboard">جدول الترتيب العام (Leaderboard)</h2>
+        <div class="leaderboard-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="rank">#</th>
+                        <th>المقاتل</th>
+                        <th>الفوز</th>
+                        <th>الخسارة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="rank">1</td>
+                        <td><strong>طه</strong> <span class="champ-badge">البطل</span></td>
+                        <td style="color:#2ecc71; font-weight:bold;">8</td>
+                        <td style="color:#e74c3c;">0</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">2</td>
+                        <td><strong>فارس</strong></td>
+                        <td style="color:#2ecc71; font-weight:bold;">6</td>
+                        <td style="color:#e74c3c;">2</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">3</td>
+                        <td><strong>فادي</strong></td>
+                        <td style="color:#2ecc71; font-weight:bold;">4</td>
+                        <td style="color:#e74c3c;">3</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">4</td>
+                        <td><strong>محمد</strong></td>
+                        <td style="color:#2ecc71; font-weight:bold;">4</td>
+                        <td style="color:#e74c3c;">3</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">5</td>
+                        <td><strong>ياسين</strong></td>
+                        <td style="color:#2ecc71; font-weight:bold;">1</td>
+                        <td style="color:#e74c3c;">1</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">6</td>
+                        <td><strong>عبد المؤمن</strong></td>
+                        <td style="color:#2ecc71; font-weight:bold;">1</td>
+                        <td style="color:#e74c3c;">3</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">7</td>
+                        <td><strong>فاروق</strong></td>
+                        <td style="color:#2ecc71; font-weight:bold;">1</td>
+                        <td style="color:#e74c3c;">6</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">8</td>
+                        <td><strong>عبد الرؤوف</strong></td>
+                        <td style="color:#2ecc71; font-weight:bold;">0</td>
+                        <td style="color:#e74c3c;">1</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">9</td>
+                        <td><strong>فراس</strong></td>
+                        <td style="color:#2ecc71; font-weight:bold;">0</td>
+                        <td style="color:#e74c3c;">1</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">10</td>
+                        <td><strong>عبد الرحمن</strong></td>
+                        <td style="color:#2ecc71; font-weight:bold;">1</td>
+                        <td style="color:#e74c3c;">0</td>
+                    </tr>
+                    <tr>
+                        <td class="rank">11</td>
+                        <td><strong>أحمد</strong></td>
+                        <td style="color:#2ecc71; font-weight:bold;">1</td>
+                        <td style="color:#e74c3c;">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 class="section-title" id="fights">جدول المواجهات (Fight Card)</h2>
+        <div class="matches-grid">
+            <div class="match-card">
+                <div class="category-title">GOLD GROUP - حسم اللقب</div>
+                <div class="vs-container">
+                    <div class="fighter">
+                        <div class="fighter-name">طه</div>
+                        <div class="fighter-record">8 فوز - 0 خسارة</div>
+                    </div>
+                    <div class="vs-circle">VS</div>
+                    <div class="fighter">
+                        <div class="fighter-name">فارس</div>
+                        <div class="fighter-record">6 فوز - 2 خسارة</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="match-card">
+                <div class="category-title">GOLD GROUP - نزال القمة</div>
+                <div class="vs-container">
+                    <div class="fighter">
+                        <div class="fighter-name">فادي</div>
+                        <div class="fighter-record">4 فوز - 3 خسارة</div>
+                    </div>
+                    <div class="vs-circle">VS</div>
+                    <div class="fighter">
+                        <div class="fighter-name">محمد</div>
+                        <div class="fighter-record">4 فوز - 3 خسارة</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="match-card">
+                <div class="category-title">SILVER GROUP - منافسة صاعدة</div>
+                <div class="vs-container">
+                    <div class="fighter">
+                        <div class="fighter-name">ياسين</div>
+                        <div class="fighter-record">1 فوز - 1 خسارة</div>
+                    </div>
+                    <div class="vs-circle">VS</div>
+                    <div class="fighter">
+                        <div class="fighter-name">عبد المؤمن</div>
+                        <div class="fighter-record">1 فوز - 3 خسارة</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="match-card">
+                <div class="category-title">BRONZE GROUP - البحث عن الفوز</div>
+                <div class="vs-container">
+                    <div class="fighter">
+                        <div class="fighter-name">عبد الرؤوف</div>
+                        <div class="fighter-record">0 فوز - 1 خسارة</div>
+                    </div>
+                    <div class="vs-circle">VS</div>
+                    <div class="fighter">
+                        <div class="fighter-name">فراس</div>
+                        <div class="fighter-record">0 فوز - 1 خسارة</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="match-card">
+                <div class="category-title">HEAVYWEIGHT GROUP - الوزن الثقيل</div>
+                <div class="vs-container">
+                    <div class="fighter">
+                        <div class="fighter-name">عبد الرحمن</div>
+                        <div class="fighter-record">1 فوز - 0 خسارة</div>
+                    </div>
+                    <div class="vs-circle">VS</div>
+                    <div class="fighter">
+                        <div class="fighter-name">أحمد</div>
+                        <div class="fighter-record">1 فوز - 0 خسارة</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 SFC - Striking Fight Card. جميع الحقوق محفوظة.</p>
+    </footer>
+
+</body>
+</html>
